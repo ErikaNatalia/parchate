@@ -1,0 +1,6 @@
+.vercel
+*.mp4
+*.gif
+.DS_Store
+node_modules/
+dist/
