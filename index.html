@@ -684,14 +684,14 @@
       margin: 0 auto;
     }
 
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow .3s ease;
-    color: var(--white);
+    .lugar-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .3s ease;
+      color: var(--white);
     }
 
     .lugar-card:hover {
@@ -710,23 +710,12 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      background: linear-gradient(135deg, rgba(255, 107, 84, 0.2) 0%, rgba(255, 184, 48, 0.2) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 64px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      overflow: hidden;
-    }
-
-    .lugar-card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .lugar-card:hover .lugar-card-img {
-      transform: scale(1.1);
     }
 
     .lugar-body {
@@ -1133,6 +1122,7 @@
       </video>
       <div class="lugares-overlay"></div>
     </div>
+
     <div class="lugares-content">
       <div class="lugares-header">
         <span class="section-label">Explora</span>
@@ -1141,9 +1131,7 @@
       </div>
       <div class="lugares-grid">
         <div class="lugar-card">
-          <div class="lugar-img">
-            <img src="source/pics/adventure.jpg" alt="Aventura" class="lugar-card-img">
-          </div>
+          <div class="lugar-img">🧗</div>
           <div class="lugar-body">
             <span class="lugar-tag">Aventura</span>
             <h3>Escalada y Deportes</h3>
@@ -1151,9 +1139,7 @@
           </div>
         </div>
         <div class="lugar-card">
-          <div class="lugar-img">
-            <img src="source/pics/gastronomy.jpg" alt="Gastronomía" class="lugar-card-img">
-          </div>
+          <div class="lugar-img">🍕</div>
           <div class="lugar-body">
             <span class="lugar-tag">Gastronomía</span>
             <h3>Restaurantes y Bares</h3>
@@ -1161,9 +1147,7 @@
           </div>
         </div>
         <div class="lugar-card">
-          <div class="lugar-img">
-            <img src="source/pics/culture.jpg" alt="Cultura" class="lugar-card-img">
-          </div>
+          <div class="lugar-img">🎨</div>
           <div class="lugar-body">
             <span class="lugar-tag">Cultura</span>
             <h3>Arte y Talleres</h3>
@@ -1171,9 +1155,7 @@
           </div>
         </div>
         <div class="lugar-card">
-          <div class="lugar-img">
-            <img src="source/pics/shows.jpg" alt="Espectáculos" class="lugar-card-img">
-          </div>
+          <div class="lugar-img">🎭</div>
           <div class="lugar-body">
             <span class="lugar-tag">Espectáculos</span>
             <h3>Conciertos y Shows</h3>
