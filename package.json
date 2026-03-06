@@ -9,7 +9,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo 'done'"
+    "build": "rm -rf public && mkdir public && cp index.html parchate-moodboard.html public/ 2>/dev/null || true && cp -r source public/"
   },
   "repository": {
     "type": "git",
