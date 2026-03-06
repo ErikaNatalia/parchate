@@ -23,7 +23,7 @@
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-snap-type: y proximity;
     }
 
     /* ===== VARIABLES ===== */
@@ -519,101 +519,206 @@
     }
 
     /* ===== 3. CÓMO FUNCIONA ===== */
-    #como-funciona {
+    .steps-intro {
       background: var(--cream);
-    }
-
-    .steps-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
-    .steps-header .section-sub {
-      margin: 0 auto;
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 32px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .step-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 48px 32px;
-      text-align: center;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      transition:
-        transform .8s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow .3s ease,
-        opacity .8s ease;
-      opacity: 0;
-      transform: translateY(50px);
-    }
-
-    .step-card.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .step-card:nth-child(1) {
-      transition-delay: 0.1s;
-    }
-
-    .step-card:nth-child(2) {
-      transition-delay: 0.2s;
-    }
-
-    .step-card:nth-child(3) {
-      transition-delay: 0.3s;
-    }
-
-    .step-card:nth-child(4) {
-      transition-delay: 0.4s;
-    }
-
-    .step-card.revealed:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
-    }
-
-    .step-number {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-      background: var(--lavender);
-      color: var(--white);
-      font-family: var(--font-display);
-      font-size: 24px;
-      font-weight: 800;
+      height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 24px;
-      box-shadow: 0 10px 30px rgba(139, 108, 246, 0.3);
+      text-align: center;
+      padding: 80px 48px;
+      position: relative;
+      scroll-snap-align: start;
     }
 
-    .step-card h3 {
+    .steps-intro::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+      pointer-events: none;
+    }
+
+    #como-funciona {
+      position: relative;
+      height: 280vh;
+      background: var(--cream);
+      scroll-snap-align: start;
+    }
+
+    #steps-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .step-panel {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 64px;
+      padding: 80px;
+      will-change: transform, opacity;
+    }
+
+    .step-panel-bg-num {
+      position: absolute;
       font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 12px;
+      font-size: 38vw;
+      font-weight: 900;
+      opacity: 0.03;
       color: var(--dark);
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+      letter-spacing: -10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
-    .step-card p {
-      font-size: 15px;
-      color: var(--gray-500);
-      line-height: 1.6;
+    .step-panel-content {
+      position: relative;
+      z-index: 1;
     }
 
-    .step-icon {
-      font-size: 40px;
-      margin-bottom: 24px;
+    .step-panel-img {
+      position: relative;
+      z-index: 1;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.08),
+        0 32px 64px rgba(0, 0, 0, 0.1);
+    }
+
+    .step-panel-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .step-num-display {
+      font-family: var(--font-display);
+      font-size: clamp(72px, 10vw, 116px);
+      font-weight: 900;
+      letter-spacing: -5px;
+      line-height: 1;
+      margin-bottom: 28px;
+      background: var(--step-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px;
+      border-radius: 100px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(0, 0, 0, 0.04);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--step-label-color);
+      margin-bottom: 24px;
+    }
+
+    .step-tag svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--step-label-color);
+    }
+
+    .step-panel h3 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--dark);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .step-panel p {
+      font-size: 17px;
+      color: var(--gray-500);
+      line-height: 1.75;
+    }
+
+    .steps-progress-dots {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 20;
+    }
+
+    .steps-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.12);
+      transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease;
+    }
+
+    .steps-dot.active {
+      width: 22px;
+      background: var(--coral);
+    }
+
+    @media (max-width: 900px) {
+      #como-funciona {
+        height: auto;
+      }
+
+      #steps-sticky {
+        position: static;
+        height: auto;
+      }
+
+      .step-panel {
+        position: static;
+        height: auto;
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 32px;
+        opacity: 1 !important;
+        transform: none !important;
+        padding: 64px 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      .step-panel:last-child {
+        border-bottom: none;
+      }
+
+      .step-panel-img {
+        order: -1;
+        aspect-ratio: 16 / 9;
+      }
+
+      .step-panel-bg-num {
+        display: none;
+      }
+
+      .steps-progress-dots {
+        display: none;
+      }
     }
 
     /* ===== 4. LUGARES Y ACTIVIDADES ===== */
@@ -623,6 +728,7 @@
       padding: 120px 48px;
       overflow: hidden;
       color: var(--white);
+      scroll-snap-align: start;
     }
 
     .lugares-video-container {
@@ -1041,7 +1147,7 @@
       <span>Parchate</span>
     </div>
     <ul class="nav-links">
-      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#como-funciona-intro">Cómo funciona</a></li>
       <li><a href="#lugares">Lugares</a></li>
       <li><a href="#unete">Únete</a></li>
       <li><a href="#contacto">Contacto</a></li>
@@ -1090,39 +1196,95 @@
   </div>
 
   <!-- ===== 3. CÓMO FUNCIONA ===== -->
-  <section id="como-funciona">
-    <div class="steps-header">
+  <div id="como-funciona-intro" class="steps-intro">
+    <div class="step-panel-content">
       <span class="section-label">Paso a paso</span>
       <h2 class="section-title">¿Cómo funciona Parchate?</h2>
-      <p class="section-sub">En tres simples pasos encontrarás el plan perfecto para ti y tus amigos.</p>
+      <p class="section-sub">En cuatro pasos simples tendrás el plan perfecto para ti y tus amigos.</p>
     </div>
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-icon">📲</div>
-        <div class="step-number">1</div>
-        <h3>Descarga la app</h3>
-        <p>Disponible en iOS y Android. Regístrate en menos de un minuto con tu correo o redes sociales.</p>
+  </div>
+
+  <div id="como-funciona">
+    <div id="steps-sticky">
+
+      <!-- Panel 1 -->
+      <div class="step-panel" style="--step-gradient: linear-gradient(135deg, #FF6B54, #FFB830); --step-label-color: #FF8A78;">
+        <span class="step-panel-bg-num">01</span>
+        <div class="step-panel-content">
+          <div class="step-num-display">01</div>
+          <span class="step-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            Descarga
+          </span>
+          <h3>Descarga la app</h3>
+          <p>Disponible en iOS y Android. Regístrate en menos de un minuto con tu correo o redes sociales.</p>
+        </div>
+        <div class="step-panel-img">
+          <img src="source/pics/descarga.png" alt="Descarga la app de Parchate">
+        </div>
       </div>
-      <div class="step-card">
-        <div class="step-icon">🗺️</div>
-        <div class="step-number">2</div>
-        <h3>Explora lugares</h3>
-        <p>Filtra por ciudad, tipo de actividad, precio y disponibilidad. ¡Hay algo para cada gusto!</p>
+
+      <!-- Panel 2 -->
+      <div class="step-panel" style="--step-gradient: linear-gradient(135deg, #2D5BFF, #8B6CF6); --step-label-color: #5A7FFF;">
+        <span class="step-panel-bg-num">02</span>
+        <div class="step-panel-content">
+          <div class="step-num-display">02</div>
+          <span class="step-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88 16.24,7.76"/></svg>
+            Explora
+          </span>
+          <h3>Explora lugares</h3>
+          <p>Filtra por ciudad, tipo de actividad, precio y disponibilidad. ¡Hay algo para cada gusto!</p>
+        </div>
+        <div class="step-panel-img">
+          <img src="source/pics/explora.png" alt="Explora lugares en Bogotá">
+        </div>
       </div>
-      <div class="step-card">
-        <div class="step-icon">👯</div>
-        <div class="step-number">3</div>
-        <h3>Invita a tus amigos</h3>
-        <p>Comparte el plan con un clic y coordinen juntos. La diversión es mejor en compañía.</p>
+
+      <!-- Panel 3 -->
+      <div class="step-panel" style="--step-gradient: linear-gradient(135deg, #00D4AA, #2D5BFF); --step-label-color: #00D4AA;">
+        <span class="step-panel-bg-num">03</span>
+        <div class="step-panel-content">
+          <div class="step-num-display">03</div>
+          <span class="step-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Social
+          </span>
+          <h3>Invita a tus amigos</h3>
+          <p>Comparte el plan con un clic y coordinen juntos. La diversión es mejor en compañía.</p>
+        </div>
+        <div class="step-panel-img">
+          <img src="source/pics/comparte.png" alt="Comparte el plan con amigos">
+        </div>
       </div>
-      <div class="step-card">
-        <div class="step-icon">⭐</div>
-        <div class="step-number">4</div>
-        <h3>Califica y repite</h3>
-        <p>Deja tu reseña, acumula puntos y desbloquea beneficios exclusivos en cada aventura.</p>
+
+      <!-- Panel 4 -->
+      <div class="step-panel" style="--step-gradient: linear-gradient(135deg, #FFB830, #FF6B54); --step-label-color: #FFCF6B;">
+        <span class="step-panel-bg-num">04</span>
+        <div class="step-panel-content">
+          <div class="step-num-display">04</div>
+          <span class="step-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg>
+            Recompensas
+          </span>
+          <h3>Califica y repite</h3>
+          <p>Deja tu reseña, acumula puntos y desbloquea beneficios exclusivos en cada aventura.</p>
+        </div>
+        <div class="step-panel-img">
+          <img src="source/pics/califica.png" alt="Califica tu experiencia">
+        </div>
       </div>
+
+      <!-- Progress dots (step panels 1-4) -->
+      <div class="steps-progress-dots">
+        <div class="steps-dot"></div>
+        <div class="steps-dot"></div>
+        <div class="steps-dot"></div>
+        <div class="steps-dot"></div>
+      </div>
+
     </div>
-  </section>
+  </div>
 
   <!-- ===== 4. LUGARES Y ACTIVIDADES ===== -->
   <section id="lugares">
@@ -1235,7 +1397,7 @@
       <div class="footer-col">
         <h4>Explorar</h4>
         <ul>
-          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="#como-funciona-intro">Cómo funciona</a></li>
           <li><a href="#lugares">Lugares</a></li>
           <li><a href="#unete">Únete</a></li>
           <li><a href="#">Blog</a></li>
@@ -1283,6 +1445,16 @@
     window.addEventListener('scroll', () => {
       const nav = document.getElementById('navbar');
       nav.style.boxShadow = window.scrollY > 20 ? '0 4px 24px rgba(0,0,0,0.08)' : 'none';
+    });
+
+    // Smooth scroll para anchor links (reemplaza scroll-behavior: smooth global)
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
 
     // ===== 3D SCROLL-LINKED HERO ANIMATION =====
@@ -1443,9 +1615,78 @@
         rootMargin: '0px 0px -50px 0px' // Offset to trigger a bit later
       });
 
-      document.querySelectorAll('.step-card').forEach(card => {
-        revealObserver.observe(card);
-      });
+      // === 9. STEPS SCROLL ANIMATION ===
+      (() => {
+        const isMobile = window.matchMedia('(max-width: 900px)').matches;
+
+        // Parallax on steps intro content
+        const intro   = document.getElementById('como-funciona-intro');
+        const introContent = intro ? intro.querySelector('.step-panel-content') : null;
+        if (introContent && !isMobile) {
+          function easeInOut(t) { return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2; }
+          function onIntroParallax() {
+            const rect = intro.getBoundingClientRect();
+            const vh   = window.innerHeight;
+            const raw     = (-rect.top + vh) / (intro.offsetHeight + vh);
+            const clamped = Math.max(0, Math.min(1, raw));
+            const eased   = easeInOut(clamped);
+            const ty = (0.5 - eased) * 80;
+            introContent.style.transform = `translateY(${ty}px)`;
+          }
+          window.addEventListener('scroll', onIntroParallax, { passive: true });
+          onIntroParallax();
+        }
+
+        const wrapper = document.getElementById('como-funciona');
+        if (!wrapper || isMobile) return;
+
+        const panels = wrapper.querySelectorAll('.step-panel');
+        const dots   = wrapper.querySelectorAll('.steps-dot');
+        const N = panels.length;
+
+        function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+        function easeIn(t)  { return t * t * t; }
+
+        function onStepsScroll() {
+          const rect        = wrapper.getBoundingClientRect();
+          const totalScroll = wrapper.offsetHeight - window.innerHeight;
+          const scrolled    = -rect.top;
+          const progress    = Math.max(0, Math.min(1, scrolled / totalScroll));
+
+          panels.forEach((panel, i) => {
+            const start = i / N;
+            const end   = (i + 1) / N;
+            const p     = Math.max(0, Math.min(1, (progress - start) / (end - start)));
+
+            let opacity, tx;
+            const IN  = 0.15;
+            const OUT = 0.85;
+
+            if (p < IN) {
+              const t = easeOut(p / IN);
+              opacity = t;
+              tx      = (1 - t) * 160;
+            } else if (p < OUT) {
+              opacity = 1;
+              tx      = 0;
+            } else {
+              const t = easeIn((p - OUT) / (1 - OUT));
+              opacity = 1 - t;
+              tx      = -t * 160;
+            }
+
+            panel.style.opacity   = opacity;
+            panel.style.transform = `translateX(${tx}px)`;
+
+            if (dots[i]) {
+              dots[i].classList.toggle('active', p > 0.1 && p < 0.9);
+            }
+          });
+        }
+
+        window.addEventListener('scroll', onStepsScroll, { passive: true });
+        onStepsScroll();
+      })();
     })();
   </script>
 </body>
