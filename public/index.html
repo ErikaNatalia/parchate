@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parchate – Encuentra tu plan en Bogotá</title>
+  <meta name="description"
+    content="Parchate: la plataforma para encontrar planes y experiencias en Bogotá. Divertido, moderno y confiable." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ===== VARIABLES ===== */
+    :root {
+      /* PRIMARY PALETTE */
+      --coral: #FF6B54;
+      --coral-light: #FF8A78;
+      --coral-dark: #E85540;
+      --electric-blue: #2D5BFF;
+      --electric-blue-light: #5A7FFF;
+      --electric-blue-dark: #1A3FCC;
+      --sunshine: #FFB830;
+      --sunshine-light: #FFCF6B;
+      --mint: #00D4AA;
+      --lavender: #8B6CF6;
+
+      /* NEUTRALS */
+      --dark: #1A1A2E;
+      --dark-soft: #2D2D44;
+      --gray-500: #7A7A8A;
+      --gray-300: #B8B8C8;
+      --gray-100: #F0F0F6;
+      --white: #FFFFFF;
+      --cream: #FAFAFA;
+
+      /* FONTS */
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+
+      /* UI CONSTANTS */
+      --radius-sm: 14px;
+      --radius-md: 20px;
+      --radius-lg: 24px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--dark);
+      background: var(--cream);
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ===== 1. NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      background: rgba(250, 250, 250, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--dark);
+      letter-spacing: -1px;
+    }
+
+    .nav-logo span {
+      color: var(--coral);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .nav-links a {
+      color: var(--dark);
+      opacity: 0.8;
+    }
+
+    .nav-links a:hover {
+      color: var(--coral);
+      opacity: 1;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-login {
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
+      background: var(--electric-blue);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 14px;
+      font-family: var(--font-body);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(45, 91, 255, 0.2);
+    }
+
+    .btn-login:hover {
+      background: var(--electric-blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(45, 91, 255, 0.3);
+    }
+
+    /* ===== 2. HERO — 3D SCROLL ANIMATION ===== */
+    #hero-scroll-wrapper {
+      position: relative;
+      height: 300vh;
+      background: var(--dark);
+    }
+
+    #hero-3d {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-3d-scene {
+      position: absolute;
+      inset: 0;
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-3d-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform:
+        rotateX(var(--rx, 45deg)) rotateY(var(--ry, 0deg)) scale(var(--scale, 1.3));
+      transition: transform 0.08s linear;
+      will-change: transform;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: -10%;
+      width: 120%;
+      height: 120%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* Loading overlay while frames preload */
+    .hero-loader {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: var(--dark);
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .hero-loader.loaded {
+      opacity: 0;
+    }
+
+    .hero-3d-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      background-image:
+        radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(26, 26, 46, 0.5) 100%),
+        linear-gradient(to top, rgba(26, 26, 46, var(--overlay-opacity, 0.3)) 0%, transparent 60%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* --- Floating Map Pins --- */
+    .map-pin {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      transform: translateZ(60px) translateX(-50%) translateY(-50%) scale(var(--pin-scale, 0));
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      color: var(--dark);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 50px;
+      white-space: nowrap;
+      z-index: 5;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        0 0 0 2px rgba(255, 107, 84, 0.3);
+      opacity: var(--pin-opacity, 0);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .map-pin::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 54px;
+      background: linear-gradient(135deg, var(--coral), var(--electric-blue));
+      z-index: -1;
+      opacity: 0.4;
+      animation: pin-glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes pin-glow {
+      0% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 0.6;
+        transform: scale(1.08);
+      }
+    }
+
+    /* --- Hero Text Overlay --- */
+    .hero-content-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 40px;
+      pointer-events: none;
+      transform: translateY(var(--text-y, 0px));
+      opacity: var(--text-opacity, 1);
+      transition: opacity 0.1s linear;
+    }
+
+    .hero-content-overlay h1 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+      color: var(--white);
+      text-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .hero-content-overlay h1 span {
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(135deg, var(--coral) 0%, var(--sunshine) 50%, var(--coral) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .hero-tagline {
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 48px;
+      font-family: var(--font-body);
+      max-width: 550px;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-hero {
+      display: inline-block;
+      padding: 20px 52px;
+      border-radius: 50px;
+      background: var(--coral);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 32px rgba(255, 107, 84, 0.4);
+      pointer-events: auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.2) 50%, transparent 60%);
+      background-size: 200% 200%;
+      animation: btn-shine 2.5s ease-in-out infinite;
+    }
+
+    @keyframes btn-shine {
+      0% {
+        background-position: 200% 200%;
+      }
+
+      100% {
+        background-position: -200% -200%;
+      }
+    }
+
+    .btn-hero:hover {
+      background: var(--coral-dark);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 16px 48px rgba(255, 107, 84, 0.5);
+    }
+
+    /* --- Scroll Indicator --- */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: var(--indicator-opacity, 1);
+      transition: opacity 0.3s ease;
+    }
+
+    .scroll-indicator span {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .scroll-mouse {
+      width: 28px;
+      height: 44px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 14px;
+      position: relative;
+    }
+
+    .scroll-mouse::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 10px;
+      border-radius: 4px;
+      background: var(--coral);
+      animation: scroll-bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scroll-bounce {
+
+      0%,
+      100% {
+        top: 8px;
+        opacity: 1;
+      }
+
+      50% {
+        top: 22px;
+        opacity: 0.3;
+      }
+    }
+
+    /* --- Scroll Progress Bar --- */
+    .scroll-progress {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      z-index: 20;
+      overflow: hidden;
+    }
+
+    .scroll-progress-fill {
+      width: 100%;
+      height: var(--progress, 0%);
+      background: linear-gradient(to bottom, var(--coral), var(--sunshine));
+      border-radius: 4px;
+      transition: height 0.1s linear;
+    }
+
+    /* --- Responsive Hero --- */
+    @media (max-width: 900px) {
+      #hero-scroll-wrapper {
+        height: 250vh;
+      }
+
+      .hero-3d-card {
+        transform:
+          rotateX(var(--rx, 25deg)) scale(var(--scale, 1.15));
+      }
+
+      .hero-content-overlay h1 {
+        letter-spacing: -1.5px;
+      }
+
+      .map-pin {
+        font-size: 11px;
+        padding: 7px 14px;
+      }
+
+      .scroll-progress {
+        display: none;
+      }
+    }
+
+    /* ===== SECTION COMMONS ===== */
+    section {
+      padding: 80px 48px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--coral-dark);
+      margin-bottom: 16px;
+      background: rgba(255, 107, 84, 0.08);
+      /* slight coral bg */
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      color: var(--dark);
+    }
+
+    .section-sub {
+      font-size: 18px;
+      color: var(--gray-500);
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    /* ===== 3. CÓMO FUNCIONA ===== */
+    #como-funciona {
+      background: var(--cream);
+    }
+
+    .steps-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .steps-header .section-sub {
+      margin: 0 auto;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .step-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 48px 32px;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .3s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+    }
+
+    .step-number {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: var(--lavender);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 10px 30px rgba(139, 108, 246, 0.3);
+    }
+
+    .step-card h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--dark);
+    }
+
+    .step-card p {
+      font-size: 15px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    .step-icon {
+      font-size: 40px;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    /* ===== 4. LUGARES Y ACTIVIDADES ===== */
+    #lugares {
+      position: relative;
+      background: var(--dark);
+      padding: 120px 48px;
+      overflow: hidden;
+      color: var(--white);
+    }
+
+    .lugares-video-container {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lugares-video-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    .lugares-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(26, 26, 46, 0.8) 0%,
+          rgba(26, 26, 46, 0.4) 50%,
+          rgba(26, 26, 46, 0.8) 100%);
+      z-index: 1;
+    }
+
+    .lugares-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .lugares-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .lugares-header .section-label {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--sunshine);
+    }
+
+    .lugares-header .section-title {
+      color: var(--white);
+    }
+
+    .lugares-header .section-sub {
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .lugares-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .lugar-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .3s ease;
+      color: var(--white);
+    }
+
+    .lugar-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .lugar-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, rgba(255, 107, 84, 0.2) 0%, rgba(255, 184, 48, 0.2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lugar-body {
+      padding: 28px;
+    }
+
+    .lugar-tag {
+      display: inline-block;
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .lugar-body h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--white);
+    }
+
+    .lugar-body p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
+
+    /* ===== 5. ÚNETE ===== */
+    #unete {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-soft) 100%);
+      color: var(--white);
+      text-align: center;
+      border-radius: 40px;
+      margin: 60px 48px;
+      max-width: calc(1400px - 96px);
+      padding: 100px 48px;
+    }
+
+    #unete .section-label {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--sunshine);
+    }
+
+    #unete .section-title {
+      color: var(--white);
+    }
+
+    #unete .section-sub {
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0 auto 40px;
+    }
+
+    .btn-white {
+      display: inline-block;
+      padding: 16px 44px;
+      border-radius: 50px;
+      background: var(--white);
+      color: var(--dark);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ===== 6. FORMULARIO ===== */
+    #contacto {
+      background: var(--cream);
+    }
+
+    .form-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .form-wrapper .section-title {
+      margin-bottom: 8px;
+    }
+
+    .form-wrapper .section-sub {
+      margin: 0 auto 48px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+      font-family: var(--font-display);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 16px;
+      border: 2px solid transparent;
+      background: var(--white);
+      font-family: var(--font-body);
+      font-size: 15px;
+      transition: all .2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      background: var(--white);
+      border-color: var(--mint);
+      box-shadow: 0 4px 12px rgba(0, 212, 170, 0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .btn-form {
+      width: 100%;
+      padding: 18px;
+      border-radius: 16px;
+      background: var(--mint);
+      color: var(--dark);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all .2s;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-form:hover {
+      background: var(--mint-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.4);
+    }
+
+    .btn-app-link {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      border: 2px solid var(--gray-100);
+      color: var(--gray-500);
+      font-weight: 600;
+      font-size: 14px;
+      transition: all .2s;
+    }
+
+    .btn-app-link:hover {
+      border-color: var(--coral);
+      color: var(--coral);
+    }
+
+    /* ===== 7. FOOTER ===== */
+    footer {
+      background: var(--dark);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 80px 60px 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto 64px;
+    }
+
+    .footer-brand .nav-logo {
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      line-height: 1.8;
+      max-width: 300px;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .footer-col ul li a {
+      color: rgba(255, 255, 255, 0.6);
+      transition: color .2s;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--coral);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      font-size: 13px;
+    }
+
+    .footer-bottom span {
+      color: var(--coral);
+      font-weight: 600;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      nav {
+        padding: 16px 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      section {
+        padding: 80px 24px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== 1. NAVBAR ===== -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <span>Parchate</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#lugares">Lugares</a></li>
+      <li><a href="#unete">Únete</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#" class="btn-login" id="btn-login-nav">Iniciar sesión</a>
+    </div>
+  </nav>
+
+  <!-- ===== 2. HERO — 3D SCROLL ANIMATION ===== -->
+  <div id="hero-scroll-wrapper">
+    <div id="hero-3d">
+      <div class="hero-3d-scene">
+        <div class="hero-3d-card" id="hero-3d-card">
+          <canvas id="hero-canvas"></canvas>
+
+          <!-- Loading state -->
+          <div class="hero-loader" id="hero-loader"></div>
+
+          <!-- Floating Map Pins -->
+          <div class="map-pin" style="--x:25%; --y:35%" data-appear="0.55">🎭 Teatro</div>
+          <div class="map-pin" style="--x:58%; --y:22%" data-appear="0.6">🍕 Gastronomía</div>
+          <div class="map-pin" style="--x:72%; --y:55%" data-appear="0.65">🧗 Aventura</div>
+          <div class="map-pin" style="--x:40%; --y:65%" data-appear="0.7">🎨 Cultura</div>
+          <div class="map-pin" style="--x:65%; --y:40%" data-appear="0.75">🎶 Música</div>
+        </div>
+      </div>
+
+      <div class="hero-3d-overlay" id="hero-overlay"></div>
+
+      <div class="hero-content-overlay" id="hero-content">
+        <h1>Encuentra tu<br><span>Parche</span> ideal</h1>
+        <p class="hero-tagline">Divertido · Moderno · Confiable.<br>La mejor forma de encontrar qué hacer en Bogotá.</p>
+        <a href="#unete" class="btn-hero" id="btn-hero-cta">Descubre la app →</a>
+      </div>
+
+      <div class="scroll-indicator" id="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-mouse"></div>
+      </div>
+
+      <div class="scroll-progress">
+        <div class="scroll-progress-fill" id="scroll-progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3. CÓMO FUNCIONA ===== -->
+  <section id="como-funciona">
+    <div class="steps-header">
+      <span class="section-label">Paso a paso</span>
+      <h2 class="section-title">¿Cómo funciona Parchate?</h2>
+      <p class="section-sub">En tres simples pasos encontrarás el plan perfecto para ti y tus amigos.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">📲</div>
+        <div class="step-number">1</div>
+        <h3>Descarga la app</h3>
+        <p>Disponible en iOS y Android. Regístrate en menos de un minuto con tu correo o redes sociales.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🗺️</div>
+        <div class="step-number">2</div>
+        <h3>Explora lugares</h3>
+        <p>Filtra por ciudad, tipo de actividad, precio y disponibilidad. ¡Hay algo para cada gusto!</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">👯</div>
+        <div class="step-number">3</div>
+        <h3>Invita a tus amigos</h3>
+        <p>Comparte el plan con un clic y coordinen juntos. La diversión es mejor en compañía.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">⭐</div>
+        <div class="step-number">4</div>
+        <h3>Califica y repite</h3>
+        <p>Deja tu reseña, acumula puntos y desbloquea beneficios exclusivos en cada aventura.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. LUGARES Y ACTIVIDADES ===== -->
+  <section id="lugares">
+    <div class="lugares-video-container">
+      <video autoplay muted loop playsinline class="lugares-video-bg">
+        <source src="source/videos/sectionPlaces.mp4" type="video/mp4">
+        Tu navegador no soporta el tag de video.
+      </video>
+      <div class="lugares-overlay"></div>
+    </div>
+
+    <div class="lugares-content">
+      <div class="lugares-header">
+        <span class="section-label">Explora</span>
+        <h2 class="section-title">Lo que encontrarás en Parchate</h2>
+        <p class="section-sub">Desde planes tranquilos hasta aventuras extremas, tenemos todo lo que buscas.</p>
+      </div>
+      <div class="lugares-grid">
+        <div class="lugar-card">
+          <div class="lugar-img">🧗</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Aventura</span>
+            <h3>Escalada y Deportes</h3>
+            <p>Muros de escalada, paintball, karting y mucho más para los más activos.</p>
+          </div>
+        </div>
+        <div class="lugar-card">
+          <div class="lugar-img">🍕</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Gastronomía</span>
+            <h3>Restaurantes y Bares</h3>
+            <p>Los mejores spots para comer rico y pasar una noche increíble con buena vibra.</p>
+          </div>
+        </div>
+        <div class="lugar-card">
+          <div class="lugar-img">🎨</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Cultura</span>
+            <h3>Arte y Talleres</h3>
+            <p>Clases de pintura, cerámica, música y experiencias creativas para todos.</p>
+          </div>
+        </div>
+        <div class="lugar-card">
+          <div class="lugar-img">🎭</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Espectáculos</span>
+            <h3>Conciertos y Shows</h3>
+            <p>Entérate de los mejores eventos en vivo y consigue tus entradas desde la app.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. ÚNETE ===== -->
+  <section id="unete">
+    <span class="section-label">¡Te esperamos!</span>
+    <h2 class="section-title">Únete a la comunidad<br>más divertida</h2>
+    <p class="section-sub">Miles de personas ya están encontrando sus planes favoritos. ¿A qué esperas para sumarte?</p>
+    <a href="#" class="btn-white" id="btn-unete-app">Ir a la app →</a>
+  </section>
+
+  <!-- ===== 6. FORMULARIO ===== -->
+  <section id="contacto">
+    <div class="form-wrapper">
+      <span class="section-label">Escríbenos</span>
+      <h2 class="section-title">¿Tienes alguna idea?</h2>
+      <p class="section-sub">Cuéntanos qué plan o actividad quieres ver en Parchate. ¡Construimos esto juntos!</p>
+      <form id="contact-form" onsubmit="handleForm(event)">
+        <div class="form-group">
+          <label for="nombre">Tu nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej. María García" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="hola@ejemplo.com" required />
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Tu mensaje</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos tu idea..." required></textarea>
+        </div>
+        <button type="submit" class="btn-form" id="btn-form-submit">Enviar mensaje</button>
+      </form>
+      <a href="#" class="btn-app-link" id="btn-form-app">O descarga la app directamente →</a>
+    </div>
+  </section>
+
+  <!-- ===== 7. FOOTER ===== -->
+  <footer id="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color:var(--white);">Parchate</div>
+        <p>La plataforma para encontrar los mejores planes y experiencias en Bogotá. Conecta, explora y disfruta con
+          confianza.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explorar</h4>
+        <ul>
+          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="#lugares">Lugares</a></li>
+          <li><a href="#unete">Únete</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Trabaja con nosotros</a></li>
+          <li><a href="#">Prensa</a></li>
+          <li><a href="#">Términos y condiciones</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contáctanos</h4>
+        <ul>
+          <li><a href="mailto:hola@parchate.app">hola@parchate.app</a></li>
+          <li><a href="tel:+573001234567">+57 300 123 4567</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Parchate. Todos los derechos reservados.</p>
+      <p>Desarrollado con ❤️ por <span>Parchate Team</span></p>
+    </div>
+  </footer>
+
+  <script>
+    function handleForm(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-form-submit');
+      btn.textContent = '¡Mensaje enviado! 🎉';
+      btn.style.background = '#22c55e';
+      setTimeout(() => {
+        btn.textContent = 'Enviar mensaje';
+        btn.style.background = '';
+        e.target.reset();
+      }, 3000);
+    }
+
+    // Navbar scroll shadow
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.style.boxShadow = window.scrollY > 20 ? '0 4px 24px rgba(0,0,0,0.08)' : 'none';
+    });
+
+    // ===== 3D SCROLL-LINKED HERO ANIMATION =====
+    (function () {
+      const wrapper = document.getElementById('hero-scroll-wrapper');
+      const card = document.getElementById('hero-3d-card');
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      const overlay = document.getElementById('hero-overlay');
+      const content = document.getElementById('hero-content');
+      const indicator = document.getElementById('scroll-indicator');
+      const progressFill = document.getElementById('scroll-progress-fill');
+      const loader = document.getElementById('hero-loader');
+      const pins = document.querySelectorAll('.map-pin');
+
+      const frames = [];
+      const TOTAL_FRAMES = 96;
+      let framesReady = false;
+      let ticking = false;
+
+      // === Preload static frame images ===
+      function preloadFrames() {
+        const promises = [];
+        for (let i = 1; i <= TOTAL_FRAMES; i++) {
+          const img = new Image();
+          const idx = String(i).padStart(3, '0');
+          img.src = `source/frames/frame_${idx}.webp`;
+          promises.push(
+            new Promise(resolve => {
+              img.onload = () => { frames[i - 1] = img; resolve(); };
+              img.onerror = () => resolve(); // skip failed frames
+            })
+          );
+        }
+
+        // Draw first frame as soon as it loads (instant)
+        const firstImg = new Image();
+        firstImg.src = 'source/frames/frame_001.webp';
+        firstImg.onload = () => {
+          canvas.width = firstImg.naturalWidth;
+          canvas.height = firstImg.naturalHeight;
+          ctx.drawImage(firstImg, 0, 0);
+          loader.classList.add('loaded');
+        };
+
+        Promise.all(promises).then(() => {
+          framesReady = true;
+          onScroll();
+        });
+      }
+
+      preloadFrames();
+
+      // Easing function for smooth interpolation
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      // Linear interpolation helper
+      function lerp(start, end, t) {
+        return start + (end - start) * Math.max(0, Math.min(1, t));
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+
+        requestAnimationFrame(() => {
+          const rect = wrapper.getBoundingClientRect();
+          const wrapperHeight = wrapper.offsetHeight - window.innerHeight;
+          const scrolled = -rect.top;
+          const progress = Math.max(0, Math.min(1, scrolled / wrapperHeight));
+
+          // === 1. Draw cached frame based on scroll ===
+          if (framesReady && frames.length > 0) {
+            const frameIndex = Math.min(
+              frames.length - 1,
+              Math.floor(progress * (frames.length - 1))
+            );
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(frames[frameIndex], 0, 0);
+          }
+
+          // === 2. 3D Transform Phases ===
+          let rx, ry, scale;
+
+          if (progress <= 0.3) {
+            // Phase 1: Aerial tilted view → slight rotation
+            const t = easeInOutCubic(progress / 0.3);
+            rx = lerp(45, 20, t);
+            ry = lerp(0, -8, t);
+            scale = lerp(1.3, 1.15, t);
+          } else if (progress <= 0.7) {
+            // Phase 2: Transition to front view
+            const t = easeInOutCubic((progress - 0.3) / 0.4);
+            rx = lerp(20, 0, t);
+            ry = lerp(-8, 0, t);
+            scale = lerp(1.15, 1, t);
+          } else {
+            // Phase 3: Gentle zoom in
+            const t = easeInOutCubic((progress - 0.7) / 0.3);
+            rx = lerp(0, -3, t);
+            ry = 0;
+            scale = lerp(1, 1.12, t);
+          }
+
+          card.style.setProperty('--rx', rx + 'deg');
+          card.style.setProperty('--ry', ry + 'deg');
+          card.style.setProperty('--scale', scale);
+
+          // === 3. Overlay Darkness ===
+          const overlayOpacity = lerp(0.2, 0.55, progress);
+          overlay.style.setProperty('--overlay-opacity', overlayOpacity);
+
+          // === 4. Hero Text Parallax ===
+          const textY = progress * -80;
+          const textOpacity = progress < 0.5 ? 1 : lerp(1, 0, (progress - 0.5) / 0.3);
+          content.style.setProperty('--text-y', textY + 'px');
+          content.style.setProperty('--text-opacity', Math.max(0, textOpacity));
+
+          // === 5. Scroll Indicator Fade ===
+          const indicatorOpacity = progress < 0.1 ? 1 : lerp(1, 0, (progress - 0.1) / 0.15);
+          indicator.style.setProperty('--indicator-opacity', Math.max(0, indicatorOpacity));
+
+          // === 6. Progress Bar ===
+          progressFill.style.setProperty('--progress', (progress * 100) + '%');
+
+          // === 7. Floating Pins ===
+          pins.forEach(pin => {
+            const appear = parseFloat(pin.dataset.appear) || 0.5;
+            const pinProgress = Math.max(0, Math.min(1, (progress - appear) / 0.12));
+            const pinScale = easeInOutCubic(pinProgress);
+            pin.style.setProperty('--pin-scale', pinScale);
+            pin.style.setProperty('--pin-opacity', pinScale);
+          });
+
+          ticking = false;
+        });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Initial call to set starting state
+      onScroll();
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 .vercel
-*.mp4
+# *.mp4 (Removed to allow background video)
 *.gif
 .DS_Store
 node_modules/
 dist/
+.env*.local
