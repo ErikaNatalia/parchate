@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parchate — Moodboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* PRIMARY PALETTE — Energetic & Trustworthy */
+    --coral: #FF6B54;
+    --coral-light: #FF8A78;
+    --coral-dark: #E85540;
+    --electric-blue: #2D5BFF;
+    --electric-blue-light: #5A7FFF;
+    --electric-blue-dark: #1A3FCC;
+    --sunshine: #FFB830;
+    --sunshine-light: #FFCF6B;
+    --mint: #00D4AA;
+    --mint-light: #33E0BE;
+    --lavender: #8B6CF6;
+
+    /* NEUTRALS */
+    --dark: #1A1A2E;
+    --dark-soft: #2D2D44;
+    --gray-700: #4A4A5A;
+    --gray-500: #7A7A8A;
+    --gray-300: #B8B8C8;
+    --gray-100: #F0F0F6;
+    --white: #FFFFFF;
+    --cream: #FAFAFA;
+
+    /* FONTS — Inspired by Odoo's clean, bold headline approach */
+    --font-display: 'Outfit', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,250,250,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-logo {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 20px;
+    color: var(--dark);
+    letter-spacing: -0.5px;
+  }
+
+  .header-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--coral);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    font-size: 13px;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 80px 48px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255,107,84,0.08) 0%, rgba(45,91,255,0.04) 50%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-overline {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--coral);
+    margin-bottom: 20px;
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    color: var(--dark);
+    margin-bottom: 20px;
+    animation: fadeUp 0.8s ease 0.1s forwards;
+    opacity: 0;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--coral) 0%, var(--electric-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--gray-500);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 400;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+    opacity: 0;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    padding: 60px 48px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--gray-500);
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gray-100);
+  }
+
+  /* ===== COLOR PALETTE ===== */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .color-card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    cursor: pointer;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .color-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  }
+
+  .color-swatch {
+    height: 180px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+
+  .color-info {
+    padding: 16px;
+    background: white;
+  }
+
+  .color-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  .color-hex {
+    font-size: 13px;
+    color: var(--gray-500);
+    font-weight: 500;
+    font-family: monospace;
+  }
+
+  .color-role {
+    font-size: 11px;
+    color: var(--gray-300);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  /* ===== TYPOGRAPHY SECTION ===== */
+  .type-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .type-card {
+    background: white;
+    border-radius: 24px;
+    padding: 48px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .type-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.06);
+  }
+
+  .type-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--coral);
+    margin-bottom: 24px;
+  }
+
+  .type-display {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+
+  .type-body-sample {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray-500);
+    font-weight: 400;
+  }
+
+  .type-weights {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .type-weight-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .type-weight-name {
+    font-size: 12px;
+    color: var(--gray-300);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ===== UI COMPONENTS PREVIEW ===== */
+  .components-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+
+  .component-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .component-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .comp-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-300);
+  }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .btn-primary {
+    font-family: var(--font-body);
+    padding: 14px 28px;
+    background: var(--coral);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(255,107,84,0.3);
+  }
+  .btn-primary:hover { background: var(--coral-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,84,0.4); }
+
+  .btn-secondary {
+    font-family: var(--font-body);
+    padding: 14px 28px;
+    background: var(--electric-blue);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(45,91,255,0.25);
+  }
+  .btn-secondary:hover { background: var(--electric-blue-dark); transform: translateY(-2px); }
+
+  .btn-outline {
+    font-family: var(--font-body);
+    padding: 13px 28px;
+    background: transparent;
+    color: var(--dark);
+    border: 2px solid var(--gray-100);
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .btn-outline:hover { border-color: var(--coral); color: var(--coral); }
+
+  /* Tags */
+  .tags-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tag {
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-body);
+  }
+  .tag-coral { background: rgba(255,107,84,0.1); color: var(--coral); }
+  .tag-blue { background: rgba(45,91,255,0.1); color: var(--electric-blue); }
+  .tag-mint { background: rgba(0,212,170,0.1); color: var(--mint); }
+  .tag-sunshine { background: rgba(255,184,48,0.12); color: #CC8800; }
+  .tag-lavender { background: rgba(139,108,246,0.1); color: var(--lavender); }
+
+  /* Card Preview */
+  .preview-card {
+    background: var(--cream);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .preview-card:hover { transform: scale(1.02); }
+
+  .preview-card-img {
+    height: 120px;
+    background: linear-gradient(135deg, var(--coral) 0%, var(--sunshine) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+  }
+
+  .preview-card-body {
+    padding: 20px;
+  }
+
+  .preview-card-body h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .preview-card-body p {
+    font-size: 13px;
+    color: var(--gray-500);
+    line-height: 1.5;
+  }
+
+  .preview-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .preview-card-price {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--coral);
+    font-size: 18px;
+  }
+
+  .preview-card-rating {
+    font-size: 12px;
+    color: var(--sunshine);
+  }
+
+  /* ===== DESIGN PRINCIPLES ===== */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .principle-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .principle-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+  }
+
+  .principle-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .principle-card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+
+  .principle-card p {
+    font-size: 13px;
+    color: var(--gray-500);
+    line-height: 1.6;
+  }
+
+  /* ===== BRAND VOICE ===== */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .voice-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    border: 1px solid rgba(0,0,0,0.05);
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .voice-do { border-left: 4px solid var(--mint); }
+  .voice-dont { border-left: 4px solid var(--coral); }
+
+  .voice-card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .voice-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .voice-item {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.5;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .voice-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .voice-do .voice-item::before { background: var(--mint); }
+  .voice-dont .voice-item::before { background: var(--coral); }
+
+  /* ===== LOGO CONCEPT ===== */
+  .logo-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+
+  .logo-card {
+    border-radius: 24px;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .logo-card:hover { transform: scale(1.03); }
+
+  .logo-light { background: white; border: 1px solid rgba(0,0,0,0.05); }
+  .logo-dark { background: var(--dark); }
+  .logo-color { background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dark) 100%); }
+
+  .logo-text {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 42px;
+    letter-spacing: -2px;
+  }
+
+  .logo-light .logo-text { color: var(--dark); }
+  .logo-dark .logo-text { color: white; }
+  .logo-color .logo-text { color: white; }
+
+  .logo-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 2px;
+    vertical-align: super;
+    font-size: 0;
+  }
+
+  .logo-light .logo-dot { background: var(--coral); }
+  .logo-dark .logo-dot { background: var(--coral); }
+  .logo-color .logo-dot { background: white; }
+
+  .logo-tagline {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .logo-light .logo-tagline { color: var(--gray-500); }
+  .logo-dark .logo-tagline { color: rgba(255,255,255,0.5); }
+  .logo-color .logo-tagline { color: rgba(255,255,255,0.7); }
+
+  .logo-context {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 8px;
+  }
+
+  .logo-light .logo-context { color: var(--gray-300); }
+  .logo-dark .logo-context { color: rgba(255,255,255,0.25); }
+  .logo-color .logo-context { color: rgba(255,255,255,0.4); }
+
+  /* ===== RATIONALE SECTION ===== */
+  .rationale {
+    background: var(--dark);
+    border-radius: 32px;
+    padding: 64px;
+    margin: 40px 48px 60px;
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .rationale h2 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 36px;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .rationale h2 span {
+    background: linear-gradient(135deg, var(--coral) 0%, var(--sunshine) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .rationale p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .rationale-item {
+    margin-bottom: 24px;
+  }
+
+  .rationale-item h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .rationale-item p {
+    font-size: 14px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 40px 48px 60px;
+    color: var(--gray-300);
+    font-size: 13px;
+  }
+
+  .footer span { color: var(--coral); font-weight: 600; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .color-card:nth-child(1) { animation-delay: 0.05s; }
+  .color-card:nth-child(2) { animation-delay: 0.1s; }
+  .color-card:nth-child(3) { animation-delay: 0.15s; }
+  .color-card:nth-child(4) { animation-delay: 0.2s; }
+  .color-card:nth-child(5) { animation-delay: 0.25s; }
+
+  .type-card:nth-child(1) { animation-delay: 0.1s; }
+  .type-card:nth-child(2) { animation-delay: 0.2s; }
+
+  .component-card:nth-child(1) { animation-delay: 0.05s; }
+  .component-card:nth-child(2) { animation-delay: 0.15s; }
+  .component-card:nth-child(3) { animation-delay: 0.25s; }
+
+  .principle-card:nth-child(1) { animation-delay: 0.05s; }
+  .principle-card:nth-child(2) { animation-delay: 0.1s; }
+  .principle-card:nth-child(3) { animation-delay: 0.15s; }
+  .principle-card:nth-child(4) { animation-delay: 0.2s; }
+
+  .voice-card:nth-child(1) { animation-delay: 0.05s; }
+  .voice-card:nth-child(2) { animation-delay: 0.15s; }
+
+  .logo-card:nth-child(1) { animation-delay: 0.05s; }
+  .logo-card:nth-child(2) { animation-delay: 0.15s; }
+  .logo-card:nth-child(3) { animation-delay: 0.25s; }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .palette-grid { grid-template-columns: repeat(3, 1fr); }
+    .components-grid { grid-template-columns: 1fr; }
+    .principles-grid { grid-template-columns: repeat(2, 1fr); }
+    .rationale { grid-template-columns: 1fr; padding: 48px; margin: 40px 24px; }
+  }
+
+  @media (max-width: 768px) {
+    .header, .section { padding-left: 24px; padding-right: 24px; }
+    .hero { padding: 60px 24px 40px; }
+    .palette-grid { grid-template-columns: repeat(2, 1fr); }
+    .type-showcase { grid-template-columns: 1fr; }
+    .voice-grid { grid-template-columns: 1fr; }
+    .logo-section { grid-template-columns: 1fr; }
+    .principles-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo">Parchate</div>
+      <span class="header-badge">Moodboard</span>
+    </div>
+    <div class="header-right">Design System v1.0 — Feb 2026</div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overline">Guía visual de diseño</div>
+    <h1>Diseño para<br><span>Parchate</span></h1>
+    <p class="hero-sub">Moodboard y sistema de diseño para la plataforma de planes y experiencias en Bogotá. Divertido, moderno y confiable.</p>
+  </section>
+
+  <!-- COLOR PALETTE -->
+  <section class="section">
+    <div class="section-label">01 — Paleta de colores</div>
+    <div class="palette-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background: linear-gradient(160deg, #FF6B54 0%, #FF8A78 100%);"></div>
+        <div class="color-info">
+          <div class="color-name">Coral Parche</div>
+          <div class="color-hex">#FF6B54</div>
+          <div class="color-role">Primario — CTA & Energía</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: linear-gradient(160deg, #2D5BFF 0%, #5A7FFF 100%);"></div>
+        <div class="color-info">
+          <div class="color-name">Azul Confianza</div>
+          <div class="color-hex">#2D5BFF</div>
+          <div class="color-role">Secundario — Confianza B2B</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: linear-gradient(160deg, #FFB830 0%, #FFCF6B 100%);"></div>
+        <div class="color-info">
+          <div class="color-name">Sol Bogotano</div>
+          <div class="color-hex">#FFB830</div>
+          <div class="color-role">Acento — Alegría & Highlights</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: linear-gradient(160deg, #00D4AA 0%, #33E0BE 100%);"></div>
+        <div class="color-info">
+          <div class="color-name">Menta Fresca</div>
+          <div class="color-hex">#00D4AA</div>
+          <div class="color-role">Éxito & Confirmaciones</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: linear-gradient(160deg, #8B6CF6 0%, #A78BFA 100%);"></div>
+        <div class="color-info">
+          <div class="color-name">Lavanda Noche</div>
+          <div class="color-hex">#8B6CF6</div>
+          <div class="color-role">Planes nocturnos & Premium</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="section">
+    <div class="section-label">02 — Tipografía</div>
+    <div class="type-showcase">
+      <div class="type-card">
+        <div class="type-label">Display / Headlines</div>
+        <div class="type-display">Outfit</div>
+        <p class="type-body-sample">Inspirada en el approach tipográfico bold y limpio de Odoo. Peso variable, geométrica, moderna. Ideal para headlines que capturan atención sin ser agresivas.</p>
+        <div class="type-weights">
+          <div class="type-weight-row">
+            <span style="font-family: var(--font-display); font-weight: 900; font-size: 24px;">Parchate Bogotá</span>
+            <span class="type-weight-name">Black 900</span>
+          </div>
+          <div class="type-weight-row">
+            <span style="font-family: var(--font-display); font-weight: 700; font-size: 24px;">Encuentra tu plan</span>
+            <span class="type-weight-name">Bold 700</span>
+          </div>
+          <div class="type-weight-row">
+            <span style="font-family: var(--font-display); font-weight: 500; font-size: 24px;">Explora la ciudad</span>
+            <span class="type-weight-name">Medium 500</span>
+          </div>
+        </div>
+      </div>
+      <div class="type-card">
+        <div class="type-label">Body / UI Text</div>
+        <div class="type-display" style="font-family: var(--font-body); font-size: 48px; letter-spacing: -1px;">Jakarta</div>
+        <p class="type-body-sample">Plus Jakarta Sans ofrece legibilidad excepcional en cuerpos de texto y UI. Sus proporciones amigables y su peso consistente la hacen perfecta para descripciones, botones y navegación.</p>
+        <div class="type-weights">
+          <div class="type-weight-row">
+            <span style="font-family: var(--font-body); font-weight: 700; font-size: 20px;">Los mejores planes de Bogotá</span>
+            <span class="type-weight-name">Bold 700</span>
+          </div>
+          <div class="type-weight-row">
+            <span style="font-family: var(--font-body); font-weight: 500; font-size: 20px;">Restaurantes, bares y más</span>
+            <span class="type-weight-name">Medium 500</span>
+          </div>
+          <div class="type-weight-row">
+            <span style="font-family: var(--font-body); font-weight: 400; font-size: 20px;">Descubre lo que Bogotá tiene</span>
+            <span class="type-weight-name">Regular 400</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UI COMPONENTS -->
+  <section class="section">
+    <div class="section-label">03 — Componentes UI</div>
+    <div class="components-grid">
+      <!-- Buttons -->
+      <div class="component-card">
+        <div class="comp-label">Botones</div>
+        <div class="btn-row">
+          <button class="btn-primary">Parcharse</button>
+          <button class="btn-secondary">Explorar</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn-outline">Ver más planes</button>
+        </div>
+      </div>
+      <!-- Tags -->
+      <div class="component-card">
+        <div class="comp-label">Categorías / Tags</div>
+        <div class="tags-row">
+          <span class="tag tag-coral">Gastronomía</span>
+          <span class="tag tag-blue">Arte & Cultura</span>
+          <span class="tag tag-mint">Al aire libre</span>
+        </div>
+        <div class="tags-row">
+          <span class="tag tag-sunshine">Vida nocturna</span>
+          <span class="tag tag-lavender">Bienestar</span>
+        </div>
+      </div>
+      <!-- Card Preview -->
+      <div class="component-card">
+        <div class="comp-label">Card de plan</div>
+        <div class="preview-card">
+          <div class="preview-card-img">🎨</div>
+          <div class="preview-card-body">
+            <h4>Taller de cerámica en La Candelaria</h4>
+            <p>Aprende a moldear arcilla en un taller artesanal del centro histórico.</p>
+            <div class="preview-card-meta">
+              <span class="preview-card-price">$85.000</span>
+              <span class="preview-card-rating">★★★★★ 4.9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN PRINCIPLES -->
+  <section class="section">
+    <div class="section-label">04 — Principios de diseño</div>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-icon" style="background: rgba(255,107,84,0.1);">🎯</div>
+        <h3>Minimalismo con alma</h3>
+        <p>Inspirados en MonAi: interfaces limpias donde el contenido respira. Nada sobra, todo tiene propósito.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background: rgba(45,91,255,0.1);">⚡</div>
+        <h3>Bold como Odoo</h3>
+        <p>Headlines grandes, contrastes fuertes, jerarquías claras. La tipografía es protagonista, no decoración.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background: rgba(0,212,170,0.1);">🤝</div>
+        <h3>Confianza dual</h3>
+        <p>El diseño debe enamorar al usuario final (diversión) y transmitir profesionalismo a los negocios aliados.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon" style="background: rgba(255,184,48,0.1);">🇨🇴</div>
+        <h3>Sabor bogotano</h3>
+        <p>Sin caer en clichés. Colores cálidos, lenguaje cercano, referencias sutiles a la energía de la ciudad.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND VOICE -->
+  <section class="section">
+    <div class="section-label">05 — Tono de voz</div>
+    <div class="voice-grid">
+      <div class="voice-card voice-do">
+        <h3>✅ Así hablamos</h3>
+        <div class="voice-items">
+          <div class="voice-item">"¿Sin plan para hoy? Te armamos el parche perfecto."</div>
+          <div class="voice-item">Cercano pero no infantil. Como un amigo que sabe dónde ir.</div>
+          <div class="voice-item">Verbos activos: explora, descubre, vive, parchate.</div>
+          <div class="voice-item">Confianza sin arrogancia. Datos reales, reseñas honestas.</div>
+          <div class="voice-item">Para empresas: profesional, orientado a resultados, claro.</div>
+        </div>
+      </div>
+      <div class="voice-card voice-dont">
+        <h3>🚫 Esto evitamos</h3>
+        <div class="voice-items">
+          <div class="voice-item">Jerga excesiva o forzada que se sienta "fellow kids".</div>
+          <div class="voice-item">Promesas exageradas: "EL MEJOR PLAN DE TU VIDA".</div>
+          <div class="voice-item">Lenguaje corporativo frío para el usuario final.</div>
+          <div class="voice-item">Diseño recargado, pop-ups agresivos, dark patterns.</div>
+          <div class="voice-item">Ignorar la diversidad de públicos y contextos de Bogotá.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO CONCEPT -->
+  <section class="section">
+    <div class="section-label">06 — Concepto de marca</div>
+    <div class="logo-section">
+      <div class="logo-card logo-light">
+        <div class="logo-text">parchate<span class="logo-dot"></span></div>
+        <div class="logo-tagline">Planes que te mueven</div>
+        <div class="logo-context">Fondo claro</div>
+      </div>
+      <div class="logo-card logo-dark">
+        <div class="logo-text">parchate<span class="logo-dot"></span></div>
+        <div class="logo-tagline">Planes que te mueven</div>
+        <div class="logo-context">Fondo oscuro</div>
+      </div>
+      <div class="logo-card logo-color">
+        <div class="logo-text">parchate<span class="logo-dot"></span></div>
+        <div class="logo-tagline">Planes que te mueven</div>
+        <div class="logo-context">Sobre color</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RATIONALE -->
+  <div class="rationale">
+    <div>
+      <h2>¿Por qué estos <span>colores</span>?</h2>
+      <p>La paleta fue diseñada para servir a dos audiencias con necesidades distintas: usuarios buscando diversión y empresas buscando visibilidad.</p>
+    </div>
+    <div>
+      <div class="rationale-item">
+        <h4>🔴 Coral como primario</h4>
+        <p>Energía, acción, diversión. Menos agresivo que el rojo puro, más cálido que el naranja. Invita a hacer clic, a salir, a parcharse.</p>
+      </div>
+      <div class="rationale-item">
+        <h4>🔵 Azul como secundario</h4>
+        <p>Confianza, profesionalismo, estabilidad. Para empresas aliadas transmite que Parchate es una plataforma seria donde vale la pena estar.</p>
+      </div>
+      <div class="rationale-item">
+        <h4>🟡🟢🟣 Acentos contextuales</h4>
+        <p>Amarillo para alegría y highlights, menta para éxitos y disponibilidad, lavanda para planes nocturnos y experiencias premium. Cada color cumple una función.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    Moodboard creado para <span>Parchate</span> — Bogotá, 2026
+  </footer>
+
+</body>
+</html>
