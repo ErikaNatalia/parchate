@@ -618,7 +618,43 @@
 
     /* ===== 4. LUGARES Y ACTIVIDADES ===== */
     #lugares {
-      background: var(--white);
+      position: relative;
+      background: var(--dark);
+      padding: 120px 48px;
+      overflow: hidden;
+      color: var(--white);
+    }
+
+    .lugares-video-container {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lugares-video-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    .lugares-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(26, 26, 46, 0.8) 0%,
+          rgba(26, 26, 46, 0.4) 50%,
+          rgba(26, 26, 46, 0.8) 100%);
+      z-index: 1;
+    }
+
+    .lugares-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .lugares-header {
@@ -626,8 +662,18 @@
       margin-bottom: 56px;
     }
 
+    .lugares-header .section-label {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--sunshine);
+    }
+
+    .lugares-header .section-title {
+      color: var(--white);
+    }
+
     .lugares-header .section-sub {
       margin: 0 auto;
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .lugares-grid {
@@ -638,35 +684,21 @@
       margin: 0 auto;
     }
 
-    .lugar-card {
-      background: var(--cream);
-      overflow: hidden;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .lugar-card:nth-child(1) {
-      border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
-    }
-
-    .lugar-card:nth-child(2) {
-      border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
-    }
-
-    .lugar-card:nth-child(3) {
-      border-radius: 50% 50% 30% 70% / 50% 30% 70% 50%;
-    }
-
-    .lugar-card:nth-child(4) {
-      border-radius: 70% 30% 50% 50% / 30% 70% 50% 50%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .3s ease;
+    color: var(--white);
     }
 
     .lugar-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.1);
-      border-radius: 24px !important;
-      /* Returns to soft square on hover for clarity */
-      border-color: var(--coral-light);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .lugar-img {
@@ -678,7 +710,12 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      background: linear-gradient(135deg, rgba(255, 107, 84, 0.2) 0%, rgba(255, 184, 48, 0.2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .lugar-body {
@@ -694,9 +731,9 @@
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 12px;
-      background: white;
-      color: var(--dark);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .lugar-body h3 {
@@ -704,11 +741,12 @@
       font-size: 18px;
       font-weight: 700;
       margin-bottom: 8px;
+      color: var(--white);
     }
 
     .lugar-body p {
       font-size: 14px;
-      color: var(--gray-500);
+      color: rgba(255, 255, 255, 0.7);
       line-height: 1.5;
     }
 
@@ -1077,50 +1115,51 @@
 
   <!-- ===== 4. LUGARES Y ACTIVIDADES ===== -->
   <section id="lugares">
-    <div class="lugares-header">
-      <span class="section-label">Explora</span>
-      <h2 class="section-title">Lo que encontrarás en Parchate</h2>
-      <p class="section-sub">Desde planes tranquilos hasta aventuras extremas, tenemos todo lo que buscas.</p>
+    <div class="lugares-video-container">
+      <video autoplay muted loop playsinline class="lugares-video-bg">
+        <source src="source/videos/sectionPlaces.mp4" type="video/mp4">
+        Tu navegador no soporta el tag de video.
+      </video>
+      <div class="lugares-overlay"></div>
     </div>
-    <div class="lugares-grid">
-      <div class="lugar-card">
-        <div class="lugar-img">
-          <img src="source/pics/trek.jpg" alt="Aventura - Trekking" />
-        </div>
-        <div class="lugar-body">
-          <span class="lugar-tag">Aventura</span>
-          <h3>Escalada y Deportes</h3>
-          <p>Muros de escalada, paintball, karting y mucho más para los más activos.</p>
-        </div>
+    <div class="lugares-content">
+      <div class="lugares-header">
+        <span class="section-label">Explora</span>
+        <h2 class="section-title">Lo que encontrarás en Parchate</h2>
+        <p class="section-sub">Desde planes tranquilos hasta aventuras extremas, tenemos todo lo que buscas.</p>
       </div>
-      <div class="lugar-card">
-        <div class="lugar-img">
-          <img src="source/pics/gastronomia.jpg" alt="Gastronomía - Restaurante" />
+      <div class="lugares-grid">
+        <div class="lugar-card">
+          <div class="lugar-img">🧗</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Aventura</span>
+            <h3>Escalada y Deportes</h3>
+            <p>Muros de escalada, paintball, karting y mucho más para los más activos.</p>
+          </div>
         </div>
-        <div class="lugar-body">
-          <span class="lugar-tag">Gastronomía</span>
-          <h3>Restaurantes y Bares</h3>
-          <p>Los mejores spots para comer rico y pasar una noche increíble con buena vibra.</p>
+        <div class="lugar-card">
+          <div class="lugar-img">🍕</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Gastronomía</span>
+            <h3>Restaurantes y Bares</h3>
+            <p>Los mejores spots para comer rico y pasar una noche increíble con buena vibra.</p>
+          </div>
         </div>
-      </div>
-      <div class="lugar-card">
-        <div class="lugar-img">
-          <img src="source/pics/arte.jpg" alt="Cultura - Taller de arte" />
+        <div class="lugar-card">
+          <div class="lugar-img">🎨</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Cultura</span>
+            <h3>Arte y Talleres</h3>
+            <p>Clases de pintura, cerámica, música y experiencias creativas para todos.</p>
+          </div>
         </div>
-        <div class="lugar-body">
-          <span class="lugar-tag">Cultura</span>
-          <h3>Arte y Talleres</h3>
-          <p>Clases de pintura, cerámica, música y experiencias creativas para todos.</p>
-        </div>
-      </div>
-      <div class="lugar-card">
-        <div class="lugar-img">
-          <img src="source/pics/shows.jpg" alt="Espectáculos - Concierto" />
-        </div>
-        <div class="lugar-body">
-          <span class="lugar-tag">Espectáculos</span>
-          <h3>Conciertos y Shows</h3>
-          <p>Entérate de los mejores eventos en vivo y consigue tus entradas desde la app.</p>
+        <div class="lugar-card">
+          <div class="lugar-img">🎭</div>
+          <div class="lugar-body">
+            <span class="lugar-tag">Espectáculos</span>
+            <h3>Conciertos y Shows</h3>
+            <p>Entérate de los mejores eventos en vivo y consigue tus entradas desde la app.</p>
+          </div>
         </div>
       </div>
     </div>
